@@ -1,0 +1,72 @@
+name: Complete DevOps CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Validate HTML
+        run: |
+          if [ -f html/index.html ]; then
+            echo "HTML file found"
+          else
+            echo "HTML file missing"
+            exit 1
+          fi
+      
+      - name: Validate Nginx Config
+        run: |
+          docker run --rm -v $PWD/app/nginx.conf:/etc/nginx/conf.d/default.conf:ro nginx:alpine nginx -t
+
+  build:
+    name: Build Docker Image
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build Docker image
+        run: |
+          docker build -t complete-devops-app:test -f docker/Dockerfile .
+          echo "Docker image built successfully"
+      
+      - name: Test container
+        run: |
+          docker run -d --name test-app -p 8080:8080 complete-devops-app:test
+          sleep 5
+          curl -f http://localhost:8080/health || exit 1
+          docker stop test-app
+          echo "Container test passed"
+
+  deploy:
+    name: Deploy to AWS EC2
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
+          script: |
+            cd ~/complete-devops-project
+            git pull origin main
+            cd docker
+            docker-compose down
+            docker-compose up -d --build
+            echo "Deployed successfully"

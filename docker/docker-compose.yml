@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: complete-devops-app:v3
+    container_name: devops-app
+    ports:
+      - "8091:8080"
+    networks:
+      - devops-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  db:
+    image: postgres:16-alpine
+    container_name: devops-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: devopsdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - devops-db-data:/var/lib/postgresql/data
+    networks:
+      - devops-network
+    restart: unless-stopped
+
+networks:
+  devops-network:
+    driver: bridge
+
+volumes:
+  devops-db-data:
+    driver: local
+

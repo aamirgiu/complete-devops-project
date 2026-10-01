@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Aamir Sajjad - DevOps Engineer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 42px;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #8892b0;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .status {
+            display: inline-block;
+            background: #00ff88;
+            color: #0a0a0a;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .card h2 {
+            color: #00d2ff;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        .card p {
+            color: #ccd6f6;
+            line-height: 1.8;
+            margin: 8px 0;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .skill {
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #8892b0; }
+        .info-value { color: #00ff88; font-weight: bold; }
+        .footer {
+            text-align: center;
+            color: #8892b0;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="header">
+            <h1>Muhammad Aamir Sajjad</h1>
+            <p>Junior Scientist | DevOps Engineer</p>
+            <div class="status">LIVE ON AWS CLOUD</div>
+        </div>
+
+        <div class="card">
+            <h2>About Me</h2>
+            <p>I am a Junior Scientist with a strong passion for DevOps and Cloud Computing.</p>
+            <p>I focus on building scalable, automated infrastructure and CI/CD pipelines.</p>
+            <p>I continuously learn and apply modern DevOps practices to real-world projects.</p>
+        </div>
+
+        <div class="card">
+            <h2>Deployment Information</h2>
+            <div class="info-row">
+                <span class="info-label">Server:</span>
+                <span class="info-value">AWS EC2 (t3.micro)</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Region:</span>
+                <span class="info-value">Sydney (ap-southeast-2)</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Container:</span>
+                <span class="info-value">Docker + Nginx</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">CI/CD:</span>
+                <span class="info-value">GitHub Actions</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Monitoring:</span>
+                <span class="info-value">Prometheus + Grafana</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Automation:</span>
+                <span class="info-value">Ansible + Python (boto3)</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Technical Skills</h2>
+            <div class="skills">
+                <span class="skill">Linux</span>
+                <span class="skill">Bash</span>
+                <span class="skill">Git</span>
+                <span class="skill">Docker</span>
+                <span class="skill">Docker Compose</span>
+                <span class="skill">Kubernetes</span>
+                <span class="skill">Terraform</span>
+                <span class="skill">Ansible</span>
+                <span class="skill">GitHub Actions</span>
+                <span class="skill">AWS EC2</span>
+                <span class="skill">Nginx</span>
+                <span class="skill">PostgreSQL</span>
+                <span class="skill">Prometheus</span>
+                <span class="skill">Grafana</span>
+                <span class="skill">Python</span>
+                <span class="skill">boto3</span>
+                <span class="skill">CI/CD</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>About This Project</h2>
+            <p>This website is running inside a Docker container on AWS EC2.</p>
+            <p>The complete project includes:</p>
+            <p>&#8226; Application (HTML/CSS) served by Nginx</p>
+            <p>&#8226; Docker containerization</p>
+            <p>&#8226; Docker Compose orchestration</p>
+            <p>&#8226; GitHub Actions CI/CD pipeline</p>
+            <p>&#8226; AWS EC2 cloud deployment</p>
+            <p>&#8226; Ansible configuration management</p>
+            <p>&#8226; Prometheus + Grafana monitoring</p>
+            <p>&#8226; Python + boto3 AWS automation</p>
+        </div>
+
+        <div class="card">
+            <h2>Connect With Me</h2>
+            <p>GitHub: <a href="https://github.com/aamirgiu" style="color: #00d2ff;">github.com/aamirgiu</a></p>
+            <p>Project Repository: <a href="https://github.com/aamirgiu/complete-devops-project" style="color: #00d2ff;">complete-devops-project</a></p>
+        </div>
+
+        <div class="footer">
+            <p>Deployed with Docker | Powered by AWS | &copy; 2026</p>
+        </div>
+
+    </div>
+</body>
+</html>
