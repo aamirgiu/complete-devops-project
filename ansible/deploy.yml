@@ -1,0 +1,96 @@
+---
+- name: Complete DevOps Project Deployment
+  hosts: aws
+  become: yes
+  
+  tasks:
+    - name: Update system packages
+      dnf:
+        name: "*"
+        state: latest
+      ignore_errors: yes
+    
+    - name: Install required packages
+      dnf:
+        name:
+          - git
+          - docker
+          - python3-pip
+        state: present
+    
+    - name: Start and enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    
+    - name: Add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+    
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+    
+    - name: Create project directory
+      file:
+        path: /opt/complete-devops-project
+        state: directory
+        mode: '0755'
+    
+    - name: Clone project repository
+      git:
+        repo: https://github.com/aamirgiu/complete-devops-project.git
+        dest: /opt/complete-devops-project
+        version: main
+        force: yes
+    
+    - name: Stop existing containers
+      shell: |
+        cd /opt/complete-devops-project/docker
+        docker-compose down
+      ignore_errors: yes
+    
+    - name: Start containers with Docker Compose
+      shell: |
+        cd /opt/complete-devops-project/docker
+        docker-compose up -d --build
+      register: docker_output
+    
+    - name: Show Docker Compose output
+      debug:
+        msg: "{{ docker_output.stdout }}"
+    
+    - name: Verify containers are running
+      shell: docker ps
+      register: containers
+    
+    - name: Display running containers
+      debug:
+        msg: "{{ containers.stdout_lines }}"
+    
+    - name: Health check
+      uri:
+        url: http://localhost:8091/health
+        return_content: yes
+      register: health_result
+      ignore_errors: yes
+    
+    - name: Show health check result
+      debug:
+        msg: "Health check: {{ health_result.status | default('unknown') }}"
+    
+    - name: Deployment complete message
+      debug:
+        msg: |
+          ========================================
+          DEPLOYMENT SUCCESSFUL!
+          ========================================
+          Website: http://{{ ansible_host }}:8091
+          Project: /opt/complete-devops-project
+          Containers: devops-app, devops-db
+          ========================================
